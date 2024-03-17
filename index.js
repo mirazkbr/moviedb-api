@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+
 const app = express();
 const PORT = 3000;
 
@@ -19,27 +20,33 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB");
 });
+
 app.use(cors());
+app.use(bodyParser.json());
 
 // Define Movie schema
 const movieSchema = new mongoose.Schema({
   name: String,
-  year: Number,
+  year: { type: Number, default: 2022 }, // Set default year to 2022
   watched: Boolean,
   wishlist: Boolean,
-  posterUrl: String, // Added posterUrl field
+  posterUrl: String,
 });
 
 const Movie = mongoose.model("movie", movieSchema);
 
-app.use(bodyParser.json());
-
 // Route to add a new movie
 app.post("/movies", async (req, res, next) => {
-  const { name, year, posterUrl } = req.body;
+  let { name, year, posterUrl } = req.body;
 
-  if (!name || !year) {
-    return res.status(400).json({ message: "Name and year are required." });
+  // Convert name to lowercase
+  name = name.toLowerCase();
+
+  // Set default year to 2022 if not provided
+  year = year || 2022;
+
+  if (!name) {
+    return res.status(400).json({ message: "Name is required." });
   }
 
   try {
