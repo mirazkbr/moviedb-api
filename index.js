@@ -79,55 +79,12 @@ app.get("/movies", async (req, res) => {
 });
 
 // Route to mark a movie as watched
-// app.put("/movies/:id/watched", async (req, res) => {
-//   const { name } = req.params;
-
-//   try {
-//     const movie = await Movie.findOneAndUpdate(
-//       { _id },
-//       { watched: true, wishlist: false },
-//       { new: true }
-//     );
-
-//     if (!movie) {
-//       return res.status(404).json({ message: "Movie not found." });
-//     }
-
-//     res.json({ message: "Movie marked as watched.", movie });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal server error." });
-//   }
-// });
-
-// // Route to add a movie to the wishlist
-// app.put("/movies/:id/wishlist", async (req, res) => {
-//   const { _id } = req.params;
-
-//   try {
-//     const movie = await Movie.findOneAndUpdate(
-//       { name },
-//       { wishlist: true },
-//       { new: true }
-//     );
-
-//     if (!movie) {
-//       return res.status(404).json({ message: "Movie not found." });
-//     }
-
-//     res.json({ message: "Movie added to wishlist.", movie });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal server error." });
-//   }
-// });
-// Route to mark a movie as watched
 app.put("/movies/:id/watched", async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Corrected parameter name
 
   try {
-    const movie = await Movie.findByIdAndUpdate(
-      id,
+    const movie = await Movie.findByIdAndUpdate( // Using findByIdAndUpdate to update by _id
+      id, // Using the _id received from the request parameters
       { watched: true, wishlist: false },
       { new: true }
     );
@@ -145,11 +102,11 @@ app.put("/movies/:id/watched", async (req, res) => {
 
 // Route to add a movie to the wishlist
 app.put("/movies/:id/wishlist", async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Corrected parameter name
 
   try {
-    const movie = await Movie.findByIdAndUpdate(
-      id,
+    const movie = await Movie.findByIdAndUpdate( // Using findByIdAndUpdate to update by _id
+      id, // Using the _id received from the request parameters
       { wishlist: true },
       { new: true }
     );
