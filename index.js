@@ -79,12 +79,12 @@ app.get("/movies", async (req, res) => {
 });
 
 // Route to mark a movie as watched
-app.put("/movies/:name/watched", async (req, res) => {
+app.put("/movies/:id/watched", async (req, res) => {
   const { name } = req.params;
 
   try {
     const movie = await Movie.findOneAndUpdate(
-      { name },
+      { _id },
       { watched: true, wishlist: false },
       { new: true }
     );
@@ -101,8 +101,8 @@ app.put("/movies/:name/watched", async (req, res) => {
 });
 
 // Route to add a movie to the wishlist
-app.put("/movies/:name/wishlist", async (req, res) => {
-  const { name } = req.params;
+app.put("/movies/:id/wishlist", async (req, res) => {
+  const { _id } = req.params;
 
   try {
     const movie = await Movie.findOneAndUpdate(
