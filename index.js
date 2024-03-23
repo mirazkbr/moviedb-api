@@ -48,7 +48,13 @@ app.post("/movies", async (req, res, next) => {
   if (!name) {
     return res.status(400).json({ message: "Name is required." });
   }
-
+  const duplicateCheck = await movieSchema.find({name, year})
+  if(name && year){
+    console.log('movie already exist')
+  }
+  else {
+    console.log('no duplicate found')
+  }
   try {
     const movie = new Movie({
       name,
